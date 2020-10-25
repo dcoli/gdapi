@@ -31,17 +31,27 @@ app.get('/request', async (req, res) => {
 })
 
 app.get('/request/:id', async (req, res) => {
-    let theBook = await sequel.book.findOne( 
-       { where: { id: req.params.id } }
-    )
-    theBook.timestamp = new Date().toISOString()
-    res.json(theBook)
+    try {
+        let theBook = await sequel.book.findAll( 
+           { where: { id: req.params.id } }
+        )
+        if( theBook ) {
+            // theBook.timestamp = new Date().toISOString()
+            res.status(200).json( theBook )
+        } else {
+            throw new Error("Book not found")
+        }
+    }
+    catch(e) {
+        res.status(404).send(e)
+    }
 })
 
 app.post('/request/', async (req, res) => {
-    if( sequel.user.findAll( {
+    const valid = await sequel.user.findAll( {
         where: { "email": req.body.email }
-    })) {
+    })
+    if( valid ) {
         try {
             let theBook = await sequel.book.create({
                 title: req.body.title,
@@ -60,7 +70,6 @@ app.delete('/request/:id', async (req,res) => {
         const deleted = await sequel.book.destroy({
             where: { id: req.params.id }
         });
-        console.log('deleted',deleted)
         if (deleted) {
             return res.status(204).send("Book deleted");
         }
