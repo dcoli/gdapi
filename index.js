@@ -32,7 +32,7 @@ app.get('/request', async (req, res) => {
 
 app.get('/request/:id', async (req, res) => {
     try {
-        let theBook = await sequel.book.findAll( 
+        let theBook = await sequel.book.findOne( 
            { where: { id: req.params.id } }
         )
         if( theBook ) {
