@@ -48,20 +48,26 @@ app.get('/request/:id', async (req, res) => {
 })
 
 app.post('/request/', async (req, res) => {
-    const valid = await sequel.user.findAll( {
-        where: { "email": req.body.email }
-    })
-    if( valid ) {
-        try {
-            let theBook = await sequel.book.create({
-                title: req.body.title,
-                available: 1
-            })
-            res.status(201).send(theBook)
+    try {
+        const valid = await sequel.user.findOne( {
+            where: { "email": req.body.email }
+        })
+        if( valid ) {
+            try {
+                let theBook = await sequel.book.create({
+                    title: req.body.title,
+                    available: 1
+                })
+                res.status(201).send(theBook)
+            }
+            catch {
+                res.status(500).send("error")
+            }
+        } else {
+            throw new Error("Forbidden")
         }
-        catch {
-            res.status(500).send("error")
-        }
+    } catch(e) {
+        res.status(403).send(e)
     }
 })
 
@@ -76,7 +82,7 @@ app.delete('/request/:id', async (req,res) => {
         throw new Error("Book not found");
     }
     catch(e) {
-        res.status(500).send(e)
+        res.status(403).send(e)
     }
 })
 
