@@ -3,7 +3,6 @@ const express = require('express')
 const sequel = require('./sequel.js')
 const app = express()
 const hostname = "give-directly.heroku.com";
-const port = 80
 
 /*
     POST /request
@@ -87,5 +86,6 @@ app.delete('/request/:id', async (req,res) => {
     }
 })
 
+app.set('port', (process.env.PORT || 3000));
 app.listen(port, () => console.log(`listening on ${hostname} ${port}`))
 
