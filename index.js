@@ -2,7 +2,8 @@ const bodyParser = require('body-parser')
 const express = require('express')
 const sequel = require('./sequel.js')
 const app = express()
-const port = 443
+const hostname = "give-directly.heroku.com";
+const port = 3000
 
 /*
     POST /request
@@ -86,5 +87,5 @@ app.delete('/request/:id', async (req,res) => {
     }
 })
 
-app.listen(port, () => console.log(`listening on port ${port}`))
+app.listen(port, () => console.log(`listening on ${hostname} ${port}`))
 
