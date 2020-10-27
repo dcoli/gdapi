@@ -87,5 +87,5 @@ app.delete('/request/:id', async (req,res) => {
 })
 
 app.set('port', (process.env.PORT || 3000));
-app.listen(port, () => console.log(`listening on ${hostname} ${port}`))
+app.listen( app.get('port'), () => console.log(`listening on ${hostname} ${app.get('port')}`))
 
