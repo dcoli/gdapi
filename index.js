@@ -3,7 +3,7 @@ const express = require('express')
 const sequel = require('./sequel.js')
 const app = express()
 const hostname = "give-directly.heroku.com";
-const port = 3000
+const port = 80
 
 /*
     POST /request
